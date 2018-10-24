@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" type="text/css" href="material_checkbox.css">
+	<link rel="stylesheet" type="text/css" href="theme.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:700" rel="stylesheet"
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>To-Do</title>
+</head>
+
+<body>
+			<div id="main">
+				<div class="title">
+					To-do
+				</div>
+
+				<div class="row">
+				<div class="col-11">
+				<div class="input">
+					<input type="text" id="input-field" class="task" placeholder="Ką reikia atlikti?">
+				</div>
+				</div>
+				</div>
+				<div class="row">
+					<div class="col-11">
+				<div class="uzduotys title-text">Užduotys</div>
+				<div id="active-count"></div>
+				<ul id="uzduotys-list" >
+				</ul>
+				</div>
+				</div>
+				<div class="row">
+				<div class="col-9">
+				<div class="atliktos title-text">Atliktos</div>
+				<div id="done-count"></div>
+				<ul id="atliktos-list">
+				</ul>
+				</div>
+				</div>
+</body>
+<script>
+
+		String.prototype.replaceAt=function(index, replacement) {
+		return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
+	}
+
+	const monthNames = ["January", "February", "March", "April", "May", "June",
+	"July", "August", "September", "October", "November", "December"
+	];
+	
+	var newTaskLocalStorage = JSON.parse(localStorage.getItem("newtasks"));
+	var doneTaskLocalStorage = JSON.parse(localStorage.getItem("donetasks"));
+	
+	localStorage.removeItem("newtasks");
+	localStorage.removeItem("donetasks");
+	
+	var newTaskObj = {};
+	var doneTaskObj = {};
+
+	const inputField = document.querySelector('#input-field');
+	const toDolist = document.querySelector('#uzduotys-list');
+	const donelist = document.querySelector('#atliktos-list');
+
+	var totalTaskCount = 0;
+	var activeTaskCount = 0;
+	var doneTaskCount = 0;
+	
+	var date = "0";
+	
+	var ifLocalStorageUpdated = 0;
+
+	updateFromLocalStorage();
+
+    ifLocalStorageUpdated = 1;
+
+	inputField.addEventListener('keypress', newTask, false);
+
+
+
+	updateCount();
+
+	function updateCount(){
+
+		var activeTaskProc =  ((activeTaskCount/totalTaskCount) * 100).toString().substring(0, 3);
+		var doneTaskProc = ((doneTaskCount/totalTaskCount) * 100).toString().substring(0, 3);
+		activeTaskProc = activeTaskProc == "NaN" ? "0" : activeTaskProc;
+		doneTaskProc = doneTaskProc == "NaN" ? "0" : doneTaskProc;
+		if(totalTaskCount !== 0){
+		activeTaskProc = activeTaskProc.charAt[2] === "." ? activeTaskProc.substring(0, 2) : activeTaskProc;
+		doneTaskProc = doneTaskProc.charAt[2] === "." ? doneTaskProc.substring(0, 2) : doneTaskProc;
+		}
+		document.querySelector('#active-count').innerHTML = " - "+activeTaskCount+"/"+totalTaskCount+' ('+activeTaskProc + '%' +')';
+		document.querySelector('#done-count').innerHTML = " - "+doneTaskCount+"/"+totalTaskCount+' ('+doneTaskProc + '%' +')';
+	}
+
+	function newTask(e) {
+	var key = e.which || e.keyCode;
+	if(key === 13 && inputField.value !== ''){
+
+		newDoneTask()
+
+	}}
+
+
+	function DoneTask(){
+
+		this.setAttribute("disabled", "true");
+		var parentElem = this.parentElement.parentElement;
+		var localStorageElem = parentElem.id;
+		doneTaskObj[localStorageElem] = newTaskObj[localStorageElem];
+		delete newTaskObj[localStorageElem];
+		
+		localStorage.setItem("newtasks", JSON.stringify(newTaskObj));
+		localStorage.setItem("donetasks", JSON.stringify(doneTaskObj));
+		//var localStorageValue = localStorage.getItem(localStorageElem);
+		//var a = localStorageValue.replaceAt(11, "1");
+		//localStorage.setItem(localStorageElem, a);
+
+		activeTaskCount--;
+		doneTaskCount++;
+		
+		updateCount();
+        if(ifLocalStorageUpdated){
+		setTimeout(function(){
+			requiredElem = parentElem.childNodes[0].childNodes[1];
+			parentElem.remove();
+			requiredElem.setAttribute("Class", "atlikta-uzduotis");
+			donelist.appendChild(requiredElem)
+			;}, 300);
+            }
+            else {
+            requiredElem = parentElem.childNodes[0].childNodes[1];
+			parentElem.remove();
+			requiredElem.setAttribute("Class", "atlikta-uzduotis");
+			donelist.appendChild(requiredElem)
+            }
+
+
+	}
+
+	function GetTodayDate(){
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth();
+
+		var yyyy = today.getFullYear();
+		if(dd<10){
+			dd='0'+dd;
+		}
+
+		return today = monthNames[mm].substring(0, 3)+' '+dd+' '+yyyy;
+	}
+
+	function updateFromLocalStorage(){
+		//var index = 1;
+		for(var property in newTaskLocalStorage) {
+			inputField.value = newTaskLocalStorage[property].name;
+			date = newTaskLocalStorage[property].date;
+			newDoneTask()
+		}
+		for(var property in doneTaskLocalStorage) {
+			inputField.value = doneTaskLocalStorage[property].name;
+			date = doneTaskLocalStorage[property].date;
+			newDoneTask(1)
+		}
+		date = "0";
+		//while(true){
+			//if(localStorage.getItem("task"+index) === null){
+			//	break;
+			//}
+			//var date = localStorage.getItem("task"+index).slice(0,11);
+			//var ifDone = localStorage.getItem("task"+index).slice(11,12);
+			//var name = localStorage.getItem("task"+index).substr(12);
+
+			//inputField.value = name;
+
+			//if(ifDone === "0"){
+			//	newDoneTask()
+			//}
+			//else{
+			//	newDoneTask(1)
+
+			//}
+			//index++;
+		//}
+
+	}
+
+	function newDoneTask( ifDone = 0){
+		if(inputField.value === '') return;
+
+		totalTaskCount++;
+		activeTaskCount++;
+
+		var paraList = document.createElement("li");
+		paraList.setAttribute("class", "uzduotis");
+		paraList.setAttribute("id", "task" + totalTaskCount);
+
+
+		var boxElem = document.createElement("div")
+		boxElem.setAttribute("class", "box-left");
+
+		paraList.appendChild(boxElem);
+
+
+		var todayDate = GetTodayDate();
+
+		var dateElem = document.createElement("div");
+		dateElem.setAttribute("class", "itemText top-item-text");
+		dateElem.appendChild(document.createTextNode(todayDate));
+
+		boxElem.appendChild(dateElem)
+
+		var nameElem = document.createElement("div")
+		nameElem.setAttribute("class", "itemText bottom-item-text");
+		nameElem.appendChild(document.createTextNode(inputField.value));
+
+		boxElem.appendChild(nameElem)
+
+		var labelElem = document.createElement("label")
+		labelElem.setAttribute("class", "material-checkbox");
+
+		paraList.appendChild(labelElem);
+
+		var checkboxElem = document.createElement("input")
+		checkboxElem.setAttribute("type", "checkbox");
+		checkboxElem.addEventListener('click', DoneTask,  false);
+
+		labelElem.appendChild(checkboxElem);
+
+		var spanElem = document.createElement("span")
+
+		labelElem.appendChild(spanElem);
+		
+		if (date !== "0") todayDate = date;
+
+		newTaskObj["task"+totalTaskCount] = {};
+		newTaskObj["task"+totalTaskCount].name = inputField.value;
+		newTaskObj["task"+totalTaskCount].date = todayDate;
+		
+		localStorage.setItem("newtasks", JSON.stringify(newTaskObj))
+	
+		//localStorage.setItem("task" + activeTaskCount, date+ifDone+inputField.value);
+		updateCount();
+		toDolist.appendChild(paraList);
+
+		inputField.value = '';
+
+		if(ifDone === 1){
+
+			checkboxElem.click();
+		}
+
+	}
+
+</script>
+</html>

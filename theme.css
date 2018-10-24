@@ -1,0 +1,199 @@
+* {
+    box-sizing: border-box;
+}
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+
+
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+@media only screen and (min-width: 630px) {
+    #main {
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+      width: 600px;
+    }
+}
+@media only screen and (max-width: 630px){
+  /* For mobile phones: */
+  [class*="col-"] {
+      width: 100%;
+  }
+  .task{
+    max-width: 100%;
+  }
+  .uzduotis{
+    max-width: 100%;
+  }
+  .box-left{
+    max-width: 90%;
+  }
+
+  #main {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;}
+}
+body{
+  background: #F7F9FA;
+}
+
+
+#active-count{   /*ivestu kounteris*/
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    color: #BDBDBD;
+    display:inline-block;
+}
+#done-count{   /*atliktu kounteris*/
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  color: #BDBDBD;
+  display:inline-block;
+}
+#atliktos-list{ /*listui atliktu*/
+  margin: 0px;
+}
+ul { /*abiems listams*/
+    list-style: none;
+    padding: 0px;
+}
+
+.uzduotis { /* ivestos užduoties Boxas */
+    margin-bottom: 16px;
+    width: 500px;
+    height: 54px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+    background: #ffffff;
+}
+
+.uzduotis:hover { /* šešėlis užvedus */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 5px 5px rgba(0, 0, 0, 0.22);
+}
+
+.box-left {/* checkbox pozicija */
+    width: 450px;
+    height: 100%;
+    float: left;
+    
+}
+
+.box-right { /* checkbox pozicija */
+    width: 40px;
+    height: 100%;
+    margin-left: auto;
+    margin-right: 0px;
+    float: right;
+}
+
+.material-checkbox {
+    height: 100%;
+}
+
+.checkbox {
+    padding-top: 16px;
+    height: 100%;
+    top: 0;
+}
+
+.bottom-item-text { /* ivestos užduoties tekstas */
+    margin-left: 16px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 18px;
+    color: #828282;
+}
+.top-item-text { /* Datos tekstas */
+    padding-top: 11px;
+    margin-left: 16px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 12px;
+    color: #BDBDBD;
+}
+.title { /* To-do tekstas */
+font-family: Montserrat;
+font-style: normal;
+font-weight: bold;
+line-height: normal;
+font-size: 48px;
+color: #2F80ED;
+  padding-top: 32px;
+}
+.task{ /* Boxas užduočių */
+  width: 500px;
+  height: 53px;
+  margin-top: 32px;
+  background: #FFFFFF;
+  text-indent: 16px;
+  border: 1px solid #E0E0E0;
+  /*box-sizing: border-box;*/
+  box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+::-webkit-input-placeholder { /* Ka reikia padaryti? tekstas */
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  font-size: 16px;
+  text-indent: 16px;
+  color: #828282;
+
+}
+.atliktos.title-text{ /* "atliktos" tekstas */
+  padding-bottom: 17px;
+  padding-top: 16px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  font-size: 22px;
+  color: #828282;
+  display:inline-block
+}
+.uzduotys.title-text { /* "uzduotys" tekstas */
+      padding-top: 32px;
+	    margin: auto;
+      font-family: Montserrat;
+      font-style: normal;
+      font-weight: bold;
+      line-height: normal;
+      font-size: 22px;
+      color: #828282;
+      display:inline-block
+}
+.atlikta-uzduotis{ /* atliktu uzduociu saraso tekstas */
+  padding-bottom: 16px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  text-decoration-line: line-through;
+  color: #BDBDBD
+}
